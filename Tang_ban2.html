@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc Mừng 8/3 Bạn Tốt!</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%; height: 100%;
+            z-index: 0; top: 0; left: 0;
+        }
+
+        .falling-item {
+            position: fixed;
+            font-size: clamp(14px, 2.5vw, 22px);
+            top: -20vh;
+            opacity: 0;
+            animation: fall linear infinite backwards;
+            z-index: 1; pointer-events: none;
+        }
+
+        .scene {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            padding: 20px;
+        }
+        .active-scene {
+            display: flex;
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+
+        .text-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: clamp(15px, 3vw, 30px) clamp(20px, 5vw, 50px);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+            backdrop-filter: blur(10px);
+            max-width: min(600px, 85vw);
+            width: 100%;
+            z-index: 50;
+        }
+
+        .text-flower { color: #ff99cc; font-size: 0.8em; margin: 0 5px; }
+
+        h1 {
+            font-size: clamp(1.2em, 3.5vw, 2.2em);
+            text-shadow: 0 0 10px #FF69B4;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        p {
+            font-size: clamp(0.9em, 2vw, 1.2em);
+            line-height: 1.6;
+        }
+        .hint {
+            margin-top: 15px;
+            font-size: clamp(0.75em, 1.5vw, 0.9em);
+            color: #ccffff;
+            animation: blink 1.5s infinite;
+            font-style: italic;
+        }
+        .icon-large {
+            font-size: clamp(36px, 7vw, 65px);
+            animation: floatIcon 3s ease-in-out infinite;
+            margin-bottom: clamp(8px, 2vh, 18px);
+        }
+
+        /* ===== SCENE 5 ===== */
+        #scene-5-inner {
+            position: relative;
+            width: 100%; height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+        #scene-5 .text-box {
+            position: relative;
+            z-index: 60;
+            pointer-events: auto;
+        }
+
+        .photo-card {
+            position: absolute;
+            background: transparent !important;
+            padding: 0 !important;
+            margin: 0;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            overflow: hidden;
+            opacity: 0;
+            animation: popIn 0.6s forwards;
+            pointer-events: auto;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 55;
+            line-height: 0;
+            font-size: 0;
+        }
+        .photo-card img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover;
+            display: block;
+            vertical-align: top;
+        }
+        .photo-card:hover {
+            transform: scale(1.6) !important;
+            z-index: 200 !important;
+            box-shadow: 0 0 40px rgba(255,255,255,0.9);
+        }
+
+        @keyframes fadeIn { 0% { opacity: 0; transform: translateY(25px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        @keyframes popIn { 0% { opacity: 0; transform: scale(0) rotate(-30deg); } 70% { transform: scale(1.1); } 100% { opacity: 1; } }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(110vh) rotate(360deg) translateX(40px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <div id="scene-1" class="scene active-scene" onclick="nextScene()">
+        <div class="icon-large">💰</div>
+        <div class="text-box">
+            <h1><span class="text-flower">🌸</span>Có một bức thư...<span class="text-flower">🌹</span></h1>
+            <p>Dành riêng cho 2 người bạn đại gia!</p>
+        </div>
+        <div class="hint">(Chạm vào màn hình để tiếp tục)</div>
+    </div>
+
+    <div id="scene-2" class="scene" onclick="nextScene()">
+        <div class="icon-large">💵</div>
+        <div class="text-box">
+            <h1><span class="text-flower">🌸</span>Chào bạn tốt!<span class="text-flower">🌹</span></h1>
+            <p>Hôm nay là một ngày vô cùng đặc biệt...</p>
+        </div>
+        <div class="hint">(Chạm tiếp nào)</div>
+    </div>
+
+    <div id="scene-3" class="scene" onclick="nextScene()">
+        <div class="icon-large">💎</div>
+        <div class="text-box">
+            <h1><span class="text-flower">🌸</span>8/3 Vui Vẻ Nhé !<span class="text-flower">🌹</span></h1>
+            <p>Chúc bạn luôn xinh đẹp, rạng rỡ, thành công và nhiều tiền 💵💵💵</p>
+        </div>
+        <div class="hint">(Và cái gì? Nhấn tiếp nào!)</div>
+    </div>
+
+    <div id="scene-4" class="scene" onclick="nextScene()">
+        <div class="icon-large">🎁</div>
+        <div class="text-box">
+            <h1><span class="text-flower">🌸</span>Từ F4...<span class="text-flower">🌹</span></h1>
+            <p>Và một điều bạn muốn nói...</p>
+        </div>
+        <div class="hint">(Sẵn sàng nhận quà chưa? Chạm để mở quà!)</div>
+    </div>
+
+    <div id="scene-5" class="scene">
+        <div id="scene-5-inner">
+            <div class="text-box" style="pointer-events:none;">
+                <h1><span class="text-flower">🌸</span>HAPPY WOMEN'S DAY!<span class="text-flower">🌹</span></h1>
+                <p>Năm nay cô gặp nhau lần nhé ❤️ - Bạn Đừng Trốn!!!</p>
+            </div>
+            <div id="photo-container"></div>
+        </div>
+    </div>
+
+    <script>
+        function createRainOfItems() {
+            const items = ['💵','💸','💰','💎','€','¥','💵','💸','💰','🌸','🌹'];
+            for (let i = 0; i < 30; i++) {
+                const el = document.createElement('div');
+                el.className = 'falling-item';
+                el.innerText = items[Math.floor(Math.random() * items.length)];
+                el.style.left = (Math.random() * 100) + 'vw';
+                el.style.animationDuration = (Math.random() * 10 + 8) + 's';
+                el.style.animationDelay = (Math.random() * 12) + 's';
+                document.body.appendChild(el);
+            }
+        }
+        createRainOfItems();
+
+        const imageList = [
+            'anh (1).jpg','anh (2).jpg','anh (3).jpg',
+            'anh (4).jpg','anh (5).jpg','anh (6).jpg'
+        ];
+
+        let currentScene = 1;
+
+        function nextScene() {
+            if (currentScene >= 5) return;
+            document.getElementById('scene-' + currentScene).classList.remove('active-scene');
+            currentScene++;
+            document.getElementById('scene-' + currentScene).classList.add('active-scene');
+            if (currentScene === 5) scatterPhotos();
+        }
+
+        function scatterPhotos() {
+            const container = document.getElementById('photo-container');
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+
+            const ps = Math.round(Math.min(vw, vh) * 0.22);
+
+            // 6 ảnh: bố cục đẹp - trái/phải trên+dưới, 1 trên giữa, 1 dưới giữa
+            const spots = [
+                { cx: 10, cy: 18 },   // trái trên
+                { cx: 90, cy: 18 },   // phải trên
+                { cx: 10, cy: 82 },   // trái dưới
+                { cx: 90, cy: 82 },   // phải dưới
+                { cx: 50, cy:  7 },   // giữa trên
+                { cx: 50, cy: 93 },   // giữa dưới
+            ];
+
+            const shuffled = [...imageList].sort(() => Math.random() - 0.5);
+
+            shuffled.forEach((src, i) => {
+                const spot = spots[i];
+                const halfP = ps / 2;
+                const px = Math.max(halfP, Math.min(vw - halfP, vw * spot.cx / 100));
+                const py = Math.max(halfP, Math.min(vh - halfP, vh * spot.cy / 100));
+
+                const card = document.createElement('div');
+                card.className = 'photo-card';
+                card.style.width  = ps + 'px';
+                card.style.height = ps + 'px';
+                card.style.left   = (px - halfP) + 'px';
+                card.style.top    = (py - halfP) + 'px';
+                card.style.transform = `rotate(${Math.random() * 24 - 12}deg)`;
+                card.style.animationDelay = (i * 0.15) + 's';
+
+                const img = document.createElement('img');
+                img.src = src;
+                img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+
+                card.appendChild(img);
+                container.appendChild(card);
+            });
+        }
+
+        window.addEventListener('resize', () => {
+            if (currentScene === 5) {
+                document.getElementById('photo-container').innerHTML = '';
+                scatterPhotos();
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 40 },
+                color: { value: ["#ffffff", "#FFCCDD", "#FFEB3B"] },
+                shape: { type: "heart" },
+                opacity: { value: 0.6 },
+                size: { value: 4 },
+                move: { enable: true, speed: 1.2, direction: "top" }
+            }
+        });
+    </script>
+</body>
+</html>
